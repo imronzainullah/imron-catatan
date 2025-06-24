@@ -51,8 +51,10 @@ class HomeScreen extends StatelessWidget {
                 child: Container(
                   margin: const EdgeInsets.only(bottom: 20),
                   decoration: BoxDecoration(
+                    // ignore: deprecated_member_use
                     color: Colors.white.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(20),
+                    // ignore: deprecated_member_use
                     border: Border.all(color: Colors.white.withOpacity(0.3)),
                   ),
                   padding: const EdgeInsets.all(16),
