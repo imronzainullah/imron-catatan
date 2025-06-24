@@ -1,37 +1,17 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'home_screen.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, String>> notes = [
-      {
-        'title': 'Catatan Harian',
-        'content': 'Hari ini gue belajar Flutter dan bikin aplikasi catatan.',
-      },
-      {
-        'title': 'Belanja Mingguan',
-        'content': '• Susu\n• Roti\n• Telur\n• Sabun\n• Pasta gigi',
-      },
-      {
-        'title': 'Ide Aplikasi',
-        'content': 'Aplikasi pencatat keuangan harian dengan fitur scan struk.',
-      },
-    ];
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: const Text(
-          'Catatan Saya',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -40,57 +20,92 @@ class HomeScreen extends StatelessWidget {
             end: Alignment.bottomRight,
           ),
         ),
-        child: ListView.builder(
-          padding: const EdgeInsets.fromLTRB(16, 100, 16, 80),
-          itemCount: notes.length,
-          itemBuilder: (context, index) {
-            return ClipRRect(
+        child: Center(
+          child: SingleChildScrollView(
+            child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                 child: Container(
-                  margin: const EdgeInsets.only(bottom: 20),
+                  width: 320,
+                  padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
-                    // ignore: deprecated_member_use
                     color: Colors.white.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(20),
-                    // ignore: deprecated_member_use
                     border: Border.all(color: Colors.white.withOpacity(0.3)),
                   ),
-                  padding: const EdgeInsets.all(16),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        notes[index]['title']!,
-                        style: const TextStyle(
-                          fontSize: 18,
+                      const Text(
+                        'Login',
+                        style: TextStyle(
+                          fontSize: 28,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        notes[index]['content']!,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white70,
+                      const SizedBox(height: 24),
+                      TextField(
+                        controller: emailController,
+                        style: const TextStyle(color: Colors.white),
+                        decoration: _inputDecoration('Email'),
+                      ),
+                      const SizedBox(height: 16),
+                      TextField(
+                        controller: passwordController,
+                        obscureText: true,
+                        style: const TextStyle(color: Colors.white),
+                        decoration: _inputDecoration('Password'),
+                      ),
+                      const SizedBox(height: 24),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: const Color(0xFF0083B0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 32,
+                            vertical: 14,
+                          ),
                         ),
+                        onPressed: () {
+                          // Login sederhana, langsung masuk
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const HomeScreen(),
+                            ),
+                          );
+                        },
+                        child: const Text('Masuk'),
                       ),
                     ],
                   ),
                 ),
               ),
-            );
-          },
+            ),
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Nanti diarahkan ke tambah catatan
-        },
-        backgroundColor: Colors.white,
-        child: const Icon(Icons.add, color: Color(0xFF0083B0)),
+    );
+  }
+
+  InputDecoration _inputDecoration(String label) {
+    return InputDecoration(
+      labelText: label,
+      labelStyle: const TextStyle(color: Colors.white),
+      filled: true,
+      fillColor: Colors.white.withOpacity(0.1),
+      enabledBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: Colors.white54),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: Colors.white),
+        borderRadius: BorderRadius.circular(16),
       ),
     );
   }
